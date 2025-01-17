@@ -1,5 +1,6 @@
 package com.blog.my_blog.article;
 
+import com.blog.my_blog.tag.Tag;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -44,5 +46,10 @@ public class Article {
     )
     @NotNull
     @Size(min = 1, message = "An article must have at least one tag.")
-    private Set<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getArticles().add(this);
+    }
 }
