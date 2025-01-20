@@ -10,33 +10,36 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "articles", schema = "public")
+@NoArgsConstructor
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Setter(AccessLevel.PROTECTED)
     @EqualsAndHashCode.Include
-    private long id;
+    @Column(name = "id")
+    private UUID id;
 
-    @NotNull
     @NotEmpty
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @NotNull
     @NotEmpty
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @NotNull
     @NotEmpty
+    @Column(name = "author", length = 100, nullable = false)
     private String author;
 
-    @NotNull
-    private LocalDateTime publicationDate;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @ManyToMany
     @JoinTable(
@@ -44,6 +47,7 @@ public class Article {
             joinColumns = @JoinColumn(name = "article_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
+
     @NotNull
     @Size(min = 1, message = "An article must have at least one tag.")
     private Set<Tag> tags = new HashSet<>();

@@ -2,13 +2,14 @@ package com.blog.my_blog.article;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 public record ArticleResponse(
-        long id,
+        UUID id,
         String title,
         String content,
         String author,
-        LocalDateTime publicationDate,
+        LocalDateTime createdAt,
         Set<String> tags
 ) {
 }

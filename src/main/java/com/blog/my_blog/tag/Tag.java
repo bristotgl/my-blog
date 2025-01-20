@@ -11,22 +11,24 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "tags", schema = "public")
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @EqualsAndHashCode.Include
-    long id;
+    @Column(name = "id")
+    private UUID id;
 
-    @NotNull
     @NotEmpty
-    @Column(nullable = false, unique = true)
-    String name;
+    @Column(name = "name", length = 50, nullable = false)
+    private String name;
 
     @ManyToMany(mappedBy = "tags")
     @NotNull
@@ -34,10 +36,5 @@ public class Tag {
 
     public Tag(String name) {
         this.name = name;
-    }
-
-    public void addArticle(Article article) {
-        articles.add(article);
-        article.getTags().add(this);
     }
 }
